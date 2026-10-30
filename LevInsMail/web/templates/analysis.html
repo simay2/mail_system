@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI анализ | LevInsMail</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', path='/style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+
+        <h1>LevInsMail</h1>
+        <p class="subtitle">AI анализ на кореспонденция</p>
+
+        <div class="card">
+
+            <a href="/" class="back-link">
+                ← Назад към входящата кореспонденция
+            </a>
+
+            <h2>Анализ на имейл</h2>
+
+            <div class="analysis-section">
+                <h3>Предмет</h3>
+                <p>{{ analysis.subject }}</p>
+            </div>
+
+            <div class="analysis-section">
+                <h3>Резюме</h3>
+                <p>{{ analysis.summary }}</p>
+            </div>
+
+            <div class="analysis-section">
+                <h3>Искано действие</h3>
+                <p>{{ analysis.requested_action }}</p>
+            </div>
+
+            <div class="analysis-section">
+                <h3>Краен срок</h3>
+                <p>
+                    {{ analysis.deadline or "Не е посочен" }}
+                </p>
+            </div>
+
+            <div class="analysis-section">
+                <h3>Предложение за входиране</h3>
+                <p>{{ analysis.registration_proposal }}</p>
+            </div>
+
+            <div class="analysis-section">
+                <h3>Приоритет</h3>
+
+                <span class="priority
+                    {% if analysis.priority == 'Много висок' %}
+                        priority-critical
+                    {% elif analysis.priority == 'Висок' %}
+                        priority-high
+                    {% elif analysis.priority == 'Среден' %}
+                        priority-medium
+                    {% elif analysis.priority == 'Нисък' %}
+                        priority-low
+                    {% else %}
+                        priority-unknown
+                    {% endif %}
+                ">
+                    {{ analysis.priority }}
+                </span>
+            </div>
+
+            <div class="analysis-section">
+                <h3>Статус на преглед</h3>
+                <p>{{ analysis.review_status }}</p>
+            </div>
+
+            <div class="analysis-section">
+                <h3>Входящ номер</h3>
+                <p>
+                    {{ analysis.incoming_number or "Няма" }}
+                </p>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

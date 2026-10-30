@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>LevInsMail</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', path='/style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+
+        <h1>LevInsMail</h1>
+
+        <p class="subtitle">
+            Система за кореспонденция
+        </p>
+
+        <div class="card">
+            <h2>Входяща кореспонденция</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Предмет</th>
+                        <th>Подател</th>
+                        <th>Получен на</th>
+                        <th>Резюме</th>
+                        <th>Краен срок</th>
+                        <th>Входиране</th>
+                        <th>Приоритет</th>
+                        <th>Действие</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for email in emails %}
+
+                    <tr>
+                        <td>{{ email.subject }}</td>
+
+                        <td>{{ email.sender }}</td>
+
+                        <td>{{ email.received_date }}</td>
+
+                        <td>{{ email.summary }}</td>
+
+                        <td>
+                            {{ email.deadline or "Не е посочен" }}
+                        </td>
+
+                        <td>
+                            {{ email.registration_proposal }}
+                        </td>
+
+                        <td>
+                            <span class="priority
+                                {% if email.priority == 'Много висок' %}
+                                    priority-critical
+                                {% elif email.priority == 'Висок' %}
+                                    priority-high
+                                {% elif email.priority == 'Среден' %}
+                                    priority-medium
+                                {% elif email.priority == 'Нисък' %}
+                                    priority-low
+                                {% else %}
+                                    priority-unknown
+                                {% endif %}
+                            ">
+                                {{ email.priority }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <form
+                                action="/analyse/{{ email.temporary_id }}"
+                                method="post">
+
+                                <button
+                                    type="submit"
+                                    class="analyse-btn">
+                                    Анализирай
+                                </button>
+
+                            </form>
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</body>
+</html>
